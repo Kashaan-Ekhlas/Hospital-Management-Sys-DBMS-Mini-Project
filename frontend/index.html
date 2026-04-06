@@ -1,25 +1,25 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Hospital DBMS</title>
+  <title>Hospital DBMS - Dashboard</title>
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
 
-<h1>Hospital Management</h1>
+<h1>Hospital DBMS</h1>
 
-<div class="card">
-  <h2>Add Patient</h2>
-  <input id="pname" placeholder="Name">
-  <input id="page" placeholder="Age">
-  <input id="pgender" placeholder="Gender">
-  <button onclick="addPatient()">Add</button>
+<div class="nav">
+  <a href="index.html">Home</a>
+  <a href="patients.html">Patients</a>
+  <a href="doctors.html">Doctors</a>
+  <a href="appointments.html">Appointments</a>
 </div>
 
-<div class="card">
-  <h2>Patients</h2>
-  <button onclick="loadPatients()">Refresh</button>
-  <ul id="patients"></ul>
+<div class="container">
+  <div class="card" style="text-align: center;">
+    <h2>Welcome</h2>
+    <p>Select a module from the navigation above to manage your hospital's data.</p>
+  </div>
 </div>
 
 <script src="js/app.js"></script>

@@ -22,3 +22,23 @@ def add_doctor(name: str, specialization: str):
     cursor.close()
     conn.close()
     return {"msg": "added"}
+
+@router.put("/{id}")
+def update_doctor(id: int, name: str, specialization: str):
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute("UPDATE doctors SET name=%s, specialization=%s WHERE id=%s", (name, specialization, id))
+    conn.commit()
+    cursor.close()
+    conn.close()
+    return {"msg": "updated"}
+
+@router.delete("/{id}")
+def delete_doctor(id: int):
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM doctors WHERE id=%s", (id,))
+    conn.commit()
+    cursor.close()
+    conn.close()
+    return {"msg": "deleted"}

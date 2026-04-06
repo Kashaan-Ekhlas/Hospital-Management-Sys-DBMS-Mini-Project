@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Patients - Hospital DBMS</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<h1>Manage Patients</h1>
+
+<div class="nav">
+  <a href="index.html">Home</a>
+  <a href="patients.html" style="background-color: var(--accent); color: white;">Patients</a>
+  <a href="doctors.html">Doctors</a>
+  <a href="appointments.html">Appointments</a>
+</div>
+
+<div class="container">
+  <div class="card">
+    <h2>Patient Form</h2>
+    <input type="hidden" id="pid">
+    <input id="pname" placeholder="Patient Name">
+    <input id="page" type="number" placeholder="Age">
+    <select id="pgender">
+      <option value="">Select Gender</option>
+      <option value="Male">Male</option>
+      <option value="Female">Female</option>
+      <option value="Other">Other</option>
+    </select>
+    <button id="p-submit-btn" onclick="savePatient()">Add Patient</button>
+  </div>
+
+  <div class="card">
+    <h2>Patient List</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Age</th>
+          <th>Gender</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="patients-body">
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script src="js/app.js"></script>
+</body>
+</html>

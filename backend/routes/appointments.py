@@ -32,3 +32,26 @@ def add_appointment(patient_id: int, doctor_id: int, date: str):
     cursor.close()
     conn.close()
     return {"msg": "added"}
+
+@router.put("/{id}")
+def update_appointment(id: int, patient_id: int, doctor_id: int, date: str):
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute(
+        "UPDATE appointments SET patient_id=%s, doctor_id=%s, date=%s WHERE id=%s",
+        (patient_id, doctor_id, date, id)
+    )
+    conn.commit()
+    cursor.close()
+    conn.close()
+    return {"msg": "updated"}
+
+@router.delete("/{id}")
+def delete_appointment(id: int):
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM appointments WHERE id=%s", (id,))
+    conn.commit()
+    cursor.close()
+    conn.close()
+    return {"msg": "deleted"}
