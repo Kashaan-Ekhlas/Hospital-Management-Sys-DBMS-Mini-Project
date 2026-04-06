@@ -39,9 +39,14 @@ async function loadPatients() {
 
 async function savePatient() {
   const idValue = document.getElementById("pid").value;
-  const name = document.getElementById("pname").value;
-  const age = document.getElementById("page").value;
+  const name = document.getElementById("pname").value.trim();
+  const age = document.getElementById("page").value.trim();
   const gender = document.getElementById("pgender").value;
+
+  if (!name || !age || !gender) {
+    alert("Empty entries not allowed");
+    return;
+  }
 
   if (idValue) {
     // Update
@@ -102,8 +107,13 @@ async function loadDoctors() {
 
 async function saveDoctor() {
   const idValue = document.getElementById("did").value;
-  const name = document.getElementById("dname").value;
-  const spec = document.getElementById("dspec").value;
+  const name = document.getElementById("dname").value.trim();
+  const spec = document.getElementById("dspec").value.trim();
+
+  if (!name || !spec) {
+    alert("Empty entries not allowed");
+    return;
+  }
 
   if (idValue) {
     // Update
@@ -146,19 +156,12 @@ async function loadAppointments() {
   tbody.innerHTML = "";
   
   data.forEach(a => {
-    let displayDate = a.date;
-    if (a.date && a.date.includes("-")) {
-      const parts = a.date.split("-");
-      if (parts.length === 3) {
-        displayDate = `${parts[2]}/${parts[1]}/${parts[0]}`;
-      }
-    }
     const tr = document.createElement("tr");
     tr.innerHTML = `
       <td>${a.id}</td>
       <td>${a.patient}</td>
       <td>${a.doctor}</td>
-      <td>${displayDate}</td>
+      <td>${a.date}</td>
       <td class="action-buttons">
         <button class="edit" onclick="editAppointment(${a.id}, '${a.patient}', '${a.doctor}', '${a.date}')">Edit</button>
         <button class="delete" onclick="deleteAppointment(${a.id})">Delete</button>
@@ -202,10 +205,11 @@ async function saveAppointment() {
   const aid = document.getElementById("aid").value;
   const pid = document.getElementById("apatient").value;
   const did = document.getElementById("adoctor").value;
-  const date = document.getElementById("adate").value;
+  let dateField = document.getElementById("adate-display");
+  const date = dateField ? dateField.value.trim() : "";
 
   if (!pid || !did || !date) {
-    alert("Please fill all fields");
+    alert("Empty entries not allowed");
     return;
   }
 
@@ -220,7 +224,8 @@ async function saveAppointment() {
   document.getElementById("aid").value = "";
   document.getElementById("apatient").value = "";
   document.getElementById("adoctor").value = "";
-  document.getElementById("adate").value = "";
+  if(document.getElementById("adate")) document.getElementById("adate").value = "";
+  if(dateField) dateField.value = "";
   let btn = document.getElementById("a-submit-btn");
   if(btn) btn.innerText = "Add Appointment";
   loadAppointments();
@@ -228,7 +233,7 @@ async function saveAppointment() {
 
 function editAppointment(id, pName, dName, dateStr) {
   document.getElementById("aid").value = id;
-  document.getElementById("adate").value = dateStr;
+  if(document.getElementById("adate-display")) document.getElementById("adate-display").value = dateStr;
   
   const pSelect = document.getElementById("apatient");
   if (pSelect) {
@@ -271,3 +276,14 @@ document.addEventListener("DOMContentLoaded", () => {
     populateDropdowns();
   }
 });
+
+function updateDateDisplay(val) {
+  if (val) {
+    const parts = val.split('-');
+    if (parts.length === 3) {
+      document.getElementById('adate-display').value = `${parts[2]}/${parts[1]}/${parts[0]}`;
+    }
+  } else {
+    document.getElementById('adate-display').value = '';
+  }
+}

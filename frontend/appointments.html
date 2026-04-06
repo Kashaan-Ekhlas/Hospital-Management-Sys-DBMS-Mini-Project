@@ -12,7 +12,7 @@
   <a href="index.html">Home</a>
   <a href="patients.html">Patients</a>
   <a href="doctors.html">Doctors</a>
-  <a href="appointments.html" style="background-color: var(--accent); color: white;">Appointments</a>
+  <a href="appointments.html" style="background-color: var(--accent); color: var(--text-color);">Appointments</a>
 </div>
 
 <div class="container">
@@ -25,8 +25,11 @@
     <select id="adoctor">
       <option value="">Select Doctor</option>
     </select>
-    <input id="adate" type="date">
-    <button id="a-submit-btn" onclick="saveAppointment()">Add Appointment</button>
+    <div style="position: relative; margin: 15px 0;">
+      <input id="adate-display" type="text" placeholder="DD/MM/YYYY" readonly onclick="document.getElementById('adate').showPicker()" style="margin: 0; cursor: pointer;">
+      <input id="adate" type="date" style="position: absolute; opacity: 0; pointer-events: none; height: 0; width: 0;" onchange="updateDateDisplay(this.value)">
+    </div>
+    <button id="a-submit-btn" onclick="saveAppointment()" style="margin-top: 15px;">Add Appointment</button>
   </div>
 
   <div class="card">
