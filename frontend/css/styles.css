@@ -1,0 +1,28 @@
+body {
+  font-family: Arial;
+  background: #fefefe;
+}
+
+h1 {
+  text-align: center;
+}
+
+.card {
+  border: 3px solid black;
+  padding: 20px;
+  margin: 20px;
+  box-shadow: 6px 6px black;
+}
+
+button {
+  background: yellow;
+  border: 2px solid black;
+  padding: 8px;
+  cursor: pointer;
+}
+
+input {
+  display: block;
+  margin: 5px 0;
+  border: 2px solid black;
+}
