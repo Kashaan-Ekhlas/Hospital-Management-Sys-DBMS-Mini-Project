@@ -156,12 +156,19 @@ async function loadAppointments() {
   tbody.innerHTML = "";
   
   data.forEach(a => {
+    let displayDate = a.date;
+    if (a.date && a.date.includes("-")) {
+      const parts = a.date.split("-");
+      if (parts.length === 3) {
+        displayDate = `${parts[2]}/${parts[1]}/${parts[0]}`;
+      }
+    }
     const tr = document.createElement("tr");
     tr.innerHTML = `
       <td>${a.id}</td>
       <td>${a.patient}</td>
       <td>${a.doctor}</td>
-      <td>${a.date}</td>
+      <td>${displayDate}</td>
       <td class="action-buttons">
         <button class="edit" onclick="editAppointment(${a.id}, '${a.patient}', '${a.doctor}', '${a.date}')">Edit</button>
         <button class="delete" onclick="deleteAppointment(${a.id})">Delete</button>
@@ -188,7 +195,7 @@ async function populateDropdowns() {
   patients.forEach(p => {
     const opt = document.createElement("option");
     opt.value = p.id;
-    opt.innerText = p.name;
+    opt.innerText = `${p.name} (ID: ${p.id})`;
     pSelect.appendChild(opt);
   });
 
@@ -196,7 +203,7 @@ async function populateDropdowns() {
   doctors.forEach(d => {
     const opt = document.createElement("option");
     opt.value = d.id;
-    opt.innerText = d.name;
+    opt.innerText = `${d.name} (ID: ${d.id})`;
     dSelect.appendChild(opt);
   });
 }
@@ -206,7 +213,13 @@ async function saveAppointment() {
   const pid = document.getElementById("apatient").value;
   const did = document.getElementById("adoctor").value;
   let dateField = document.getElementById("adate-display");
-  const date = dateField ? dateField.value.trim() : "";
+  const rawDate = dateField ? dateField.value.trim() : "";
+  
+  let date = rawDate;
+  if (rawDate.includes('/')) {
+    const parts = rawDate.split('/');
+    if (parts.length === 3) date = `${parts[2]}-${parts[1]}-${parts[0]}`;
+  }
 
   if (!pid || !did || !date) {
     alert("Empty entries not allowed");
@@ -233,12 +246,13 @@ async function saveAppointment() {
 
 function editAppointment(id, pName, dName, dateStr) {
   document.getElementById("aid").value = id;
-  if(document.getElementById("adate-display")) document.getElementById("adate-display").value = dateStr;
+  if(document.getElementById("adate")) document.getElementById("adate").value = dateStr;
+  updateDateDisplay(dateStr);
   
   const pSelect = document.getElementById("apatient");
   if (pSelect) {
     for (let opt of pSelect.options) {
-      if (opt.text === pName) {
+      if (opt.text.startsWith(pName + " (ID:")) {
         pSelect.value = opt.value;
         break;
       }
@@ -248,7 +262,7 @@ function editAppointment(id, pName, dName, dateStr) {
   const dSelect = document.getElementById("adoctor");
   if (dSelect) {
     for (let opt of dSelect.options) {
-      if (opt.text === dName) {
+      if (opt.text.startsWith(dName + " (ID:")) {
         dSelect.value = opt.value;
         break;
       }
