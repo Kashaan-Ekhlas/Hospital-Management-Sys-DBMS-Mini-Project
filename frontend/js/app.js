@@ -13,7 +13,7 @@ function showToast(message) {
   setTimeout(() => { toast.style.display = "none"; }, 3000);
 }
 
-// ------ PATIENTS ------
+// PATIENTS
 async function loadPatients() {
   const res = await fetch(`${API}/patients/`);
   const data = await res.json();
@@ -49,11 +49,9 @@ async function savePatient() {
   }
 
   if (idValue) {
-    // Update
     await fetch(`${API}/patients/${idValue}?name=${name}&age=${age}&gender=${gender}`, { method: "PUT" });
     showToast("Patient Updated!");
   } else {
-    // Add
     await fetch(`${API}/patients/?name=${name}&age=${age}&gender=${gender}`, { method: "POST" });
     showToast("Patient Added!");
   }
@@ -82,7 +80,7 @@ async function deletePatient(id) {
   }
 }
 
-// ------ DOCTORS ------
+// DOCTORS
 async function loadDoctors() {
   const res = await fetch(`${API}/doctors/`);
   const data = await res.json();
@@ -116,11 +114,9 @@ async function saveDoctor() {
   }
 
   if (idValue) {
-    // Update
     await fetch(`${API}/doctors/${idValue}?name=${name}&specialization=${spec}`, { method: "PUT" });
     showToast("Doctor Updated!");
   } else {
-    // Add
     await fetch(`${API}/doctors/?name=${name}&specialization=${spec}`, { method: "POST" });
     showToast("Doctor Added!");
   }
@@ -147,7 +143,7 @@ async function deleteDoctor(id) {
   }
 }
 
-// ------ APPOINTMENTS ------
+// APPOINTMENTS
 async function loadAppointments() {
   const res = await fetch(`${API}/appointments/`);
   const data = await res.json();
@@ -281,7 +277,7 @@ async function deleteAppointment(id) {
   }
 }
 
-// Global initialization
+// DOM IntializationStuff
 document.addEventListener("DOMContentLoaded", () => {
   if(document.getElementById("patients-body")) loadPatients();
   if(document.getElementById("doctors-body")) loadDoctors();
